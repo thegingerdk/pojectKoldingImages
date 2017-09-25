@@ -5,7 +5,104 @@
  * Date: 25/09/2017
  * Time: 12.09
  */
-
 class DataBase {
 
+	/**
+	 * Connection name
+	 * @var string
+	 */
+	private $connection;
+	/**
+	 * DB Table name
+	 * @var string
+	 */
+	protected $tableName = "";
+	/**
+	 * Array of row names
+	 * @var array
+	 */
+	protected $classAttributes = [];
+
+	/**
+	 * Loads when DataBase class initialised
+	 * DataBase constructor.
+	 */
+	public function __construct() {
+		$this->connection = Connection::open();
+	}
+
+	/**
+	 * Loads when DataBase class unlinked
+	 */
+	public function __destruct() {
+		// TODO: Close DB connection
+		$this->connection = Connection::close();
+	}
+
+	/**
+	 * Saves data to DB
+	 *
+	 * @param int $id
+	 */
+	public function save( $id = 0 ) {
+		if ( $id === 0 ) {
+			$this->create();
+		} else {
+			$this->update( $id );
+		}
+	}
+
+	/**
+	 * Creates a new item in DB
+	 */
+	private function create() {
+		// TODO: INSERT NEW ROW
+	}
+
+	/**
+	 * Updates a row in DB
+	 *
+	 * @param $id
+	 */
+	private function update( $id ) {
+		// TODO: UPDATE EXISTING ROW
+	}
+
+	/**
+	 * If query false, all rows selected, otherwise query will be run
+	 *
+	 * @param bool $query
+	 * @param null $order
+	 * @param null $sort
+	 */
+	public function select($query = false, $order = null, $sort = null) {
+		// TODO: SELECT ROWS
+	}
+
+	/**
+	 * Selects single row in DB, based on ID
+	 *
+	 * @param int $id
+	 */
+	public function find( $id = 0 ) {
+		// TODO: SELECT single row
+	}
+
+	/**
+	 * Searches DB for items equal or partially equal
+	 *
+	 * @param $str
+	 */
+	public function search($str = null) {
+		// TODO: SELECT based on search string
+	}
+
+	/**
+	 * Delete row
+	 *
+	 * @param int $id
+	 */
+	public function delete($id = 0) {
+		// TODO: Delete row from DataBase
+	}
 }
