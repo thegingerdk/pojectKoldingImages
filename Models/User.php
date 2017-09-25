@@ -8,15 +8,29 @@
 
 class User extends DataBase {
 
-	/** @var  int */
+	/**
+	 * Primary Key
+	 * @var  int */
 	private $ID;
-	/** @var string unique */
+	/**
+	 * User Email, for subscriptions and login
+	 * @var string unique */
 	private $email;
-	/** @var  string */
+	/**
+	 * Users First name
+	 * @var  string */
 	private $firstname;
-	/** @var  string */
+	/**
+	 * Users Last name
+	 * @var  string */
+	private $lastname;
+	/**
+	 * Encrypted password
+	 * @var  string */
 	private $password;
-	/** @var  string */
+	/**
+	 * Searchable username
+	 * @var  string */
 	private $nickname;
 
 }

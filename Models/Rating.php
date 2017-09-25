@@ -8,11 +8,22 @@
 
 class Rating extends DataBase {
 
-	/** @var  integer */
+	/**
+	 * Picture Primary Key
+	 * Foreign Key
+	 * @var  integer */
 	private $pictureID;
-	/** @var  integer */
+	/**
+	 * User Primary Key
+	 * Foreign Key
+	 * @var  integer */
 	private $userID;
-	/** @var  string */
+	/**
+	 * 0: Dislike
+	 * 1: Like
+	 * 2: Favorite
+	 * 3: Super Image
+	 * @var  integer */
 	private $rating;
 
 }
