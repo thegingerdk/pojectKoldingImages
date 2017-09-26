@@ -1,6 +1,4 @@
 <?php
-namespace App;
-
 
 class Picture extends DataBase {
 

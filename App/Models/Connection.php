@@ -1,6 +1,4 @@
 <?php
-namespace App;
-
 abstract class Connection {
 
 	public static $con;
@@ -13,3 +11,4 @@ abstract class Connection {
 
 	}
 }
+

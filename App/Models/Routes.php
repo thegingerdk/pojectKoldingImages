@@ -1,5 +1,4 @@
 <?php
-namespace App;
 
 class Routes {
 	public $url;

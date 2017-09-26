@@ -1,13 +1,15 @@
 {
-    "name": "SchoolProject",
+    "name": "thegingerdk/poject-kolding-images",
     "authors": [
         {
             "name": "Mike Fosmark",
             "email": "accounts@theginger.dk"
         }
     ],
+    "require": {},
     "autoload": {
         "classmap": [
+            "App/app.php",
             "App/Models"
         ],
         "psr-0": {"App": "App/Controllers"}

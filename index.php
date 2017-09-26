@@ -1,11 +1,9 @@
 <?php
-session_start();
 require "vendor/autoload.php";
 
-Conn::open();
+Connection::open();
 
 // TODO: read and render templates and routes
-
-require_once( 'Views/layout.php' );
+app::layout();
 
 Connection::close();
