@@ -30,14 +30,12 @@ class DataBase {
 	 */
 	public function __construct() {
 		$this->connection = Connection::open();
-		$this->tableName  = strtolower( get_class( [ $this ] ) ) . "s";
+		$this->tableName  = strtolower( get_class( $this ) ) . "s";
 
-		$this->columns = ( get_object_vars( [ $this ] ) );
+		$this->columns = ( get_object_vars($this ) );
 
 		echo "<pre>";
-
 		print_r( $this->columns );
-
 		echo "</pre>";
 
 	}

@@ -2,29 +2,31 @@
 
 class User extends DataBase {
 
+	protected $hidden = ['password'];
+
 	/**
 	 * Primary Key
 	 * @var  int */
-	private $ID;
+	protected $ID;
 	/**
 	 * User Email, for subscriptions and login
 	 * @var string unique */
-	private $email;
+	protected $email;
 	/**
 	 * Users First name
 	 * @var  string */
-	private $firstname;
+	protected $firstname;
 	/**
 	 * Users Last name
 	 * @var  string */
-	private $lastname;
+	protected $lastname;
 	/**
 	 * Encrypted password
 	 * @var  string */
-	private $password;
+	protected $password;
 	/**
 	 * Searchable username
 	 * @var  string */
-	private $nickname;
+	protected $nickname;
 
 }

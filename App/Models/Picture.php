@@ -9,35 +9,35 @@ class Picture extends DataBase {
 	/**
 	 * Primary Key
 	 * @var  integer */
-	private $ID;
+	protected $ID;
 	/**
 	 * User Primary Key
 	 * Foreign Key
 	 * @var  integer */
-	private $userID;
+	protected $userID;
 	/**
 	 * Image Caption
 	 * @var  string */
-	private $caption;
+	protected $caption;
 	/**
 	 * Path to image
 	 * @var  string */
-	private $imageData;
+	protected $imageData;
 	/**
 	 * Blob backup of image
 	 * @var  string */
-	private $imageBackup;
+	protected $imageBackup;
 	/**
 	 * Image MimeType
 	 * @var  integer */
-	private $mime;
+	protected $mime;
 	/**
 	 * Image Description / Story
 	 * @var  string */
-	private $story;
+	protected $story;
 	/**
 	 * Keywords of image
 	 * @var  string */
-	private $tags;
+	protected $tags;
 
 }
