@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: thegingerdk
+ * Date: 25/09/2017
+ * Time: 12.09
+ */
 class DataBase {
 
 	/**
@@ -16,13 +21,14 @@ class DataBase {
 	 * Array of row names
 	 * @var array
 	 */
-	protected $classAttributes = [];
+	protected $columns = [];
 
 	/**
 	 * Loads when DataBase class initialised
 	 * DataBase constructor.
 	 */
 	public function __construct() {
+<<<<<<< HEAD
 
 		echo "<pre>";
 		print_r(app::$db);
@@ -35,6 +41,27 @@ class DataBase {
 			echo "Error: " . $sql . "<br>" . app::$db->error;
 		}
 
+=======
+		$this->connection = Connection::open();
+                $this->tableName = strtolower(get_class ([ $this ] )) ."s";
+                
+                $this->columns = (get_object_vars ([ $this ] ));
+               
+                echo "<pre>";
+                
+                print_r ($this->columns);
+                
+                echo "</pre>";
+                
+	}
+
+	/**
+	 * Loads when DataBase class unlinked
+	 */
+	public function __destruct() {
+		// TODO: Close DB connection
+		$this->connection = Connection::close();
+>>>>>>> 5037a9fe1b8b1ab2f21e3871e151b2832581a58a
 	}
 
 	/**
@@ -53,8 +80,14 @@ class DataBase {
 	/**
 	 * Creates a new item in DB
 	 */
-	private function create() {
+	private function create($values) {
 		// TODO: INSERT NEW ROW
+            $sql = "INSERT INTO $this->tablename";
+            
+            
+            
+            $ResultSet = connection()->query($sql); 
+            return $ResultSet;
 	}
 
 	/**
@@ -64,6 +97,7 @@ class DataBase {
 	 */
 	private function update( $id ) {
 		// TODO: UPDATE EXISTING ROW
+            
 	}
 
 	/**
