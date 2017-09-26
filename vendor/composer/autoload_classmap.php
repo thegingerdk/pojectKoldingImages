@@ -8,9 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'Connection' => $baseDir . '/App/Models/Connection.php',
     'DataBase' => $baseDir . '/App/Models/DataBase.php',
+    'HomeController' => $baseDir . '/App/Controllers/HomeController.php',
     'Picture' => $baseDir . '/App/Models/Picture.php',
     'Rating' => $baseDir . '/App/Models/Rating.php',
-    'Routes' => $baseDir . '/App/Models/Routes.php',
+    'Route' => $baseDir . '/App/Models/Route.php',
     'User' => $baseDir . '/App/Models/User.php',
     'app' => $baseDir . '/App/app.php',
 );

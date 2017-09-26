@@ -6,22 +6,18 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitbfd4d26ba806fbf4b792d54567f093ab
 {
-    public static $prefixesPsr0 = array (
-        'A' => 
-        array (
-            'App' => 
-            array (
-                0 => __DIR__ . '/../..' . '/App/Controllers',
-            ),
-        ),
+    public static $files = array (
+        '30ee1fe343a050fb5d2c75f6cffb41db' => __DIR__ . '/../..' . '/App/Routes/api.php',
+        '4e0a4d732ea02cc946c5a72f81201c26' => __DIR__ . '/../..' . '/App/Routes/web.php',
     );
 
     public static $classMap = array (
         'Connection' => __DIR__ . '/../..' . '/App/Models/Connection.php',
         'DataBase' => __DIR__ . '/../..' . '/App/Models/DataBase.php',
+        'HomeController' => __DIR__ . '/../..' . '/App/Controllers/HomeController.php',
         'Picture' => __DIR__ . '/../..' . '/App/Models/Picture.php',
         'Rating' => __DIR__ . '/../..' . '/App/Models/Rating.php',
-        'Routes' => __DIR__ . '/../..' . '/App/Models/Routes.php',
+        'Route' => __DIR__ . '/../..' . '/App/Models/Route.php',
         'User' => __DIR__ . '/../..' . '/App/Models/User.php',
         'app' => __DIR__ . '/../..' . '/App/app.php',
     );
@@ -29,7 +25,6 @@ class ComposerStaticInitbfd4d26ba806fbf4b792d54567f093ab
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInitbfd4d26ba806fbf4b792d54567f093ab::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitbfd4d26ba806fbf4b792d54567f093ab::$classMap;
 
         }, null, ClassLoader::class);

@@ -10,8 +10,12 @@
     "autoload": {
         "classmap": [
             "App/app.php",
+            "App/Controllers",
             "App/Models"
         ],
-        "psr-0": {"App": "App/Controllers"}
+        "files": [
+            "App/Routes/api.php",
+            "App/Routes/web.php"
+        ]
     }
 }

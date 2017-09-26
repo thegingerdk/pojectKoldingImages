@@ -7,32 +7,34 @@
  * Time: 12.09
  */
 class DataBase {
-
-	/**
-	 * Connection name
-	 * @var string
-	 */
-	private $connection;
 	/**
 	 * DB Table name
 	 * @var string
 	 */
-	protected $tableName = "";
+	private $tableName = "";
 	/**
 	 * Array of row names
 	 * @var array
 	 */
-	protected $columns = [];
+	private $columns = [];
+	private $values = [];
+
+	public $errors = [];
 
 	/**
 	 * Loads when DataBase class initialised
 	 * DataBase constructor.
 	 */
 	public function __construct() {
-		$this->tableName  = strtolower( get_class( $this ) ) . "s";
+		$this->tableName = strtolower( get_class( $this ) ) . "s";
+		$vars            = ( get_object_vars( $this ) );
 
-		$this->columns = ( get_object_vars( $this ) );
+		unset( $vars['hidden'] );
+		unset( $vars['tableName'] );
+		unset( $vars['columns'] );
+		unset( $vars['values'] );
 
+		$this->columns = $vars;
 	}
 
 	/**
@@ -47,35 +49,70 @@ class DataBase {
 	 *
 	 * @param int $id
 	 */
-	public function save( $id = 0 ) {
+	public function save( $values = [], $id = 0 ) {
+		$this->values = $values;
 		if ( $id === 0 ) {
-			$this->create();
+			return $this->create();
 		} else {
-			$this->update( $id );
+			return $this->update( $id );
+		}
+	}
+
+	/**
+	 * @param $sql
+	 *
+	 * @return bool
+	 */
+	private function query( $sql ) {
+		if ( $result = app::$conn->query( $sql ) === true ) {
+			unset( $this->errors['db'] );
+
+			return $result;
+		} else {
+			$this->errors['db'] = "Error: " . $sql . "<br>" . app::$conn->error;
+
+			return false;
 		}
 	}
 
 	/**
 	 * Creates a new item in DB
+	 *
+	 * @return bool
 	 */
-	private function create( $values ) {
+	private function create() {
 		// TODO: INSERT NEW ROW
-		$sql = "INSERT INTO $this->tablename";
+		$sql = "INSERT INTO {$this->tableName} (";
 
+		$columns = $this->columns;
+		unset( $columns['ID'] );
 
-		$ResultSet = connection()->query( $sql );
+		foreach ( $columns as $column => $val ) {
+			$columns[ $column ] = isset( $this->values[ $column ] ) ? $this->values[ $column ] : '';
+		}
 
-		return $ResultSet;
+		$sql .= implode( ",", array_keys( $columns ) );
+
+		$sql .= ") VALUES (";
+
+		$sql .= "'" . implode( "','", $columns ) . "'";
+
+		$sql .= ")";
+
+		return $this->query($sql);
 	}
 
 	/**
 	 * Updates a row in DB
 	 *
 	 * @param $id
+	 *
+	 * @return bool
 	 */
 	private function update( $id ) {
 		// TODO: UPDATE EXISTING ROW
 
+		return false;
 	}
 
 	/**
