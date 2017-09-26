@@ -1,30 +1,20 @@
 <?php
 class Connection {
 
-	private static $instance;
 	private $connection;
 
-	public function __construct() {
+	public function open() {
 		$this->connection = new mysqli(
 			app::env('DB_HOST'),
 			app::env('DB_USER'),
-			app::env('DB_PASS'));
-	}
+			app::env('DB_PASS'),
+			app::env('DB_NAME'));
 
-	public function con () {
 		return $this->connection;
 	}
 
-	public static function open() {
-		if (self::$instance == null) {
-			self::$instance = new Connection();
-		}
-
-		return self::$instance;
-	}
-
-	public static function close() {
-
+	public function close() {
+		unset($this->connection);
 	}
 }
 

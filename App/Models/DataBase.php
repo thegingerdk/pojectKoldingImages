@@ -29,14 +29,9 @@ class DataBase {
 	 * DataBase constructor.
 	 */
 	public function __construct() {
-		$this->connection = Connection::open();
 		$this->tableName  = strtolower( get_class( $this ) ) . "s";
 
-		$this->columns = ( get_object_vars($this ) );
-
-		echo "<pre>";
-		print_r( $this->columns );
-		echo "</pre>";
+		$this->columns = ( get_object_vars( $this ) );
 
 	}
 
@@ -45,7 +40,6 @@ class DataBase {
 	 */
 	public function __destruct() {
 		// TODO: Close DB connection
-		$this->connection = Connection::close();
 	}
 
 	/**
