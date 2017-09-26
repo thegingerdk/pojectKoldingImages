@@ -1,9 +1,10 @@
 <?php
 require "vendor/autoload.php";
 
-Connection::open();
+app::$db = Connection::open();
 
-// TODO: read and render templates and routes
+$p = new User();
+
 app::layout();
 
 Connection::close();

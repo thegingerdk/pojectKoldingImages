@@ -1,5 +1,6 @@
 <?php
 
+
 class Picture extends DataBase {
 
 	protected $tableName = "tablename";

@@ -22,8 +22,19 @@ class DataBase {
 	 * Loads when DataBase class initialised
 	 * DataBase constructor.
 	 */
-	public function __construct($connection) {
-		$this->connection = Connection::$con;
+	public function __construct() {
+
+		echo "<pre>";
+		print_r(app::$db);
+		echo "<";
+		$sql = "INSERT INTO users (firstname, lastname, email) VALUES ('John', 'Doe', 'john@example.com')";
+
+		if (app::$db->query($sql) === TRUE) {
+			echo "New record created successfully";
+		} else {
+			echo "Error: " . $sql . "<br>" . app::$db->error;
+		}
+
 	}
 
 	/**
