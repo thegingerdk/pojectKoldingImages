@@ -7,7 +7,7 @@ class Route {
 	public $function;
 
 	public static function add( $route, $args = [] ) {
-		app::$routes[ isset( $args['as'] ) ? $args['as'] : count( app::$routes ) - 1 ] = new Route( $route, $args );
+		app::$routes['web'][ isset( $args['as'] ) ? $args['as'] : count( app::$routes ) - 1 ] = new Route( $route, $args );
 	}
 
 	public static function addApi( $route, $args = [] ) {

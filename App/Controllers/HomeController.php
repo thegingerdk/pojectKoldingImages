@@ -1,13 +1,9 @@
 <?php
 
-class HomeController {
-	private $route;
-	public function __construct($function) {
-		$this->$function();
-	}
-
+class HomeController extends Controller {
 	public function index() {
+		$title = "En side";
 
-		app::render('home');
+		app::view( 'home', compact( 'title' ) );
 	}
 }

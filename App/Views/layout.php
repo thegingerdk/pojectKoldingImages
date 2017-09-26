@@ -1,8 +1,8 @@
 <html>
 <head>
-	<title>Vote, Biatch!</title>
+    <title><?= ! $error ? $page->title : '404' ?></title>
 </head>
 <body>
-<h1>DO SHIT!!!!</h1>
+<?= $content ?>
 </body>
 </html>

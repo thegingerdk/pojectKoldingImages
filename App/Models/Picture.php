@@ -1,10 +1,7 @@
 <?php
 
 
-class Picture extends DataBase {
-
-	protected $tableName = "tablename";
-	protected $classAttributes = ['ID', '..', '..'];
+class Picture extends Models {
 
 	/**
 	 * Primary Key

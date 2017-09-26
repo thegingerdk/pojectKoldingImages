@@ -1,6 +1,6 @@
 <?php
 
-class User extends DataBase {
+class User extends Models {
 
 	protected $hidden = ['password'];
 

@@ -19,6 +19,7 @@ class DataBase {
 	private $columns = [];
 
 	public $errors = [];
+	private $noUse = [ 'hidden', 'tableName', 'columns', 'errors', 'noUse' ];
 
 	/**
 	 * Loads when DataBase class initialised
@@ -26,12 +27,11 @@ class DataBase {
 	 */
 	public function __construct() {
 		$this->tableName = strtolower( get_class( $this ) ) . "s";
-		$vars            = ( get_object_vars( $this ) );
 
-		unset( $vars['hidden'] );
-		unset( $vars['tableName'] );
-		unset( $vars['columns'] );
-		unset( $vars['errors'] );
+		$vars = ( get_object_vars( $this ) );
+		foreach ( $this->noUse as $item ) {
+			unset( $vars[ $item ] );
+		}
 
 		$this->columns = $vars;
 	}
@@ -48,18 +48,14 @@ class DataBase {
 	 *
 	 * @param int $id
 	 */
-	public function save( $values = [], $id = 0 ) {
+	public function save() {
 
-		$columns = $this->columns;
-		unset( $columns['ID'] );
+		$this->columns = array_filter($this->columns);
 
-		foreach ( $columns as $column => $val ) {
-			$columns[ $column ] = isset( $values[ $column ] ) ? $values[ $column ] : '';
-		}
-		if ( $id === 0 ) {
-			return $this->create( $columns );
+		if ( empty($this->ID) ) {
+			return $this->create();
 		} else {
-			return $this->update( $columns, $id );
+			return $this->update();
 		}
 	}
 
@@ -87,15 +83,15 @@ class DataBase {
 	 *
 	 * @return bool
 	 */
-	private function create( $columns ) {
+	private function create() {
 		// TODO: INSERT NEW ROW
 		$sql = "INSERT INTO {$this->tableName} (";
 
-		$sql .= implode( ",", array_keys( $columns ) );
+		$sql .= implode( ",", array_keys( $this->columns ) );
 
 		$sql .= ") VALUES (";
 
-		$sql .= "'" . implode( "','", $columns ) . "'";
+		$sql .= "'" . implode( "','", $this->columns ) . "'";
 
 		$sql .= ")";
 
@@ -110,7 +106,7 @@ class DataBase {
 	 *
 	 * @return bool
 	 */
-	private function update( $columns, $id ) {
+	private function update( ) {
 		// TODO: UPDATE EXISTING ROW
 
 		return false;
