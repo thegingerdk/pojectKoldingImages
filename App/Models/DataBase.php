@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: thegingerdk
+ * Date: 25/09/2017
+ * Time: 12.09
+ */
 class DataBase {
 
 	/**
@@ -16,14 +21,32 @@ class DataBase {
 	 * Array of row names
 	 * @var array
 	 */
-	protected $classAttributes = [];
+	protected $columns = [];
 
 	/**
 	 * Loads when DataBase class initialised
 	 * DataBase constructor.
 	 */
-	public function __construct($connection) {
-		$this->connection = Connection::$con;
+	public function __construct() {
+		$this->connection = Connection::open();
+                $this->tableName = strtolower(get_class ([ $this ] )) ."s";
+                
+                $this->columns = (get_object_vars ([ $this ] ));
+               
+                echo "<pre>";
+                
+                print_r ($this->columns);
+                
+                echo "</pre>";
+                
+	}
+
+	/**
+	 * Loads when DataBase class unlinked
+	 */
+	public function __destruct() {
+		// TODO: Close DB connection
+		$this->connection = Connection::close();
 	}
 
 	/**
@@ -42,8 +65,14 @@ class DataBase {
 	/**
 	 * Creates a new item in DB
 	 */
-	private function create() {
+	private function create($values) {
 		// TODO: INSERT NEW ROW
+            $sql = "INSERT INTO $this->tablename";
+            
+            
+            
+            $ResultSet = connection()->query($sql); 
+            return $ResultSet;
 	}
 
 	/**
@@ -53,6 +82,7 @@ class DataBase {
 	 */
 	private function update( $id ) {
 		// TODO: UPDATE EXISTING ROW
+            
 	}
 
 	/**
