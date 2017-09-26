@@ -17,7 +17,6 @@ class DataBase {
 	 * @var array
 	 */
 	private $columns = [];
-	private $values = [];
 
 	public $errors = [];
 
@@ -32,7 +31,7 @@ class DataBase {
 		unset( $vars['hidden'] );
 		unset( $vars['tableName'] );
 		unset( $vars['columns'] );
-		unset( $vars['values'] );
+		unset( $vars['errors'] );
 
 		$this->columns = $vars;
 	}
@@ -50,11 +49,17 @@ class DataBase {
 	 * @param int $id
 	 */
 	public function save( $values = [], $id = 0 ) {
-		$this->values = $values;
+
+		$columns = $this->columns;
+		unset( $columns['ID'] );
+
+		foreach ( $columns as $column => $val ) {
+			$columns[ $column ] = isset( $values[ $column ] ) ? $values[ $column ] : '';
+		}
 		if ( $id === 0 ) {
-			return $this->create();
+			return $this->create( $columns );
 		} else {
-			return $this->update( $id );
+			return $this->update( $columns, $id );
 		}
 	}
 
@@ -78,18 +83,13 @@ class DataBase {
 	/**
 	 * Creates a new item in DB
 	 *
+	 * @param $columns
+	 *
 	 * @return bool
 	 */
-	private function create() {
+	private function create( $columns ) {
 		// TODO: INSERT NEW ROW
 		$sql = "INSERT INTO {$this->tableName} (";
-
-		$columns = $this->columns;
-		unset( $columns['ID'] );
-
-		foreach ( $columns as $column => $val ) {
-			$columns[ $column ] = isset( $this->values[ $column ] ) ? $this->values[ $column ] : '';
-		}
 
 		$sql .= implode( ",", array_keys( $columns ) );
 
@@ -99,17 +99,18 @@ class DataBase {
 
 		$sql .= ")";
 
-		return $this->query($sql);
+		return $this->query( $sql );
 	}
 
 	/**
 	 * Updates a row in DB
 	 *
+	 * @param $columns
 	 * @param $id
 	 *
 	 * @return bool
 	 */
-	private function update( $id ) {
+	private function update( $columns, $id ) {
 		// TODO: UPDATE EXISTING ROW
 
 		return false;
