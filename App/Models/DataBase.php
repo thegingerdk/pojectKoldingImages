@@ -110,11 +110,28 @@ class DataBase {
 	 *
 	 * @return bool
 	 */
-	private function update( $columns, $id ) {
-		// TODO: UPDATE EXISTING ROW
 
-		return false;
-	}
+    private function update ($columns, $ID  ) {
+        // TODO: UPDATE EXISTING ROW
+        $sql = "UPDATE {$this->tableName} SET ";
+
+        $i = 0;
+
+        foreach ($columns as $column => $value) {
+                if (!empty($value)) {
+                    if($i != 0) $sql .= ', ';
+                    $sql .= "{$column}='{$value}'";
+                    $i++;
+                }
+        }
+
+        $sql .= " WHERE ID={$ID}";
+
+
+
+        return $this->query( $sql );
+    }
+
 
 	/**
 	 * If query false, all rows selected, otherwise query will be run
