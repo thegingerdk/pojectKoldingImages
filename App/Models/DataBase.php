@@ -48,8 +48,6 @@ class DataBase {
 	public function __destruct() {
 		// TODO: Close DB connection
 		$this->connection = Connection::close();
-		>>>>>>>
-		5037a9fe1b8b1ab2f21e3871e151b2832581a58a
 	}
 
 	/**
