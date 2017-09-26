@@ -45,11 +45,8 @@ class DataBase {
 
 	/**
 	 * Saves data to DB
-	 *
-	 * @param int $id
 	 */
 	public function save() {
-
 		$this->columns = array_filter($this->columns);
 
 		if ( empty($this->ID) ) {
@@ -79,8 +76,6 @@ class DataBase {
 	/**
 	 * Creates a new item in DB
 	 *
-	 * @param $columns
-	 *
 	 * @return bool
 	 */
 	private function create() {
@@ -101,16 +96,27 @@ class DataBase {
 	/**
 	 * Updates a row in DB
 	 *
-	 * @param $columns
-	 * @param $id
-	 *
 	 * @return bool
 	 */
 	private function update( ) {
-		// TODO: UPDATE EXISTING ROW
+        // TODO: UPDATE EXISTING ROW
+        $sql = "UPDATE {$this->tableName} SET ";
 
-		return false;
-	}
+        $i = 0;
+
+        foreach ($this->columns as $column => $value) {
+                if (!empty($value) && $column != 'ID') {
+                    if($i != 0) $sql .= ', ';
+                    $sql .= "{$column}='{$value}'";
+                    $i++;
+                }
+        }
+
+        $sql .= " WHERE ID={$this->ID}";
+
+        return $this->query( $sql );
+    }
+
 
 	/**
 	 * If query false, all rows selected, otherwise query will be run

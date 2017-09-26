@@ -30,6 +30,13 @@ class app {
 		echo "</pre>";
 	}
 
+	public static function dd( $print ) {
+		echo "<pre>";
+		print_r( $print );
+		echo "</pre>";
+		die();
+	}
+
 	public static function init() {
 
 		$controller = null;
