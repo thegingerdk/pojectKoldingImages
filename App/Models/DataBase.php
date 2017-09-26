@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: thegingerdk
@@ -28,31 +29,17 @@ class DataBase {
 	 * DataBase constructor.
 	 */
 	public function __construct() {
-<<<<<<< HEAD
+		$this->connection = Connection::open();
+		$this->tableName  = strtolower( get_class( [ $this ] ) ) . "s";
+
+		$this->columns = ( get_object_vars( [ $this ] ) );
 
 		echo "<pre>";
-		print_r(app::$db);
-		echo "<";
-		$sql = "INSERT INTO users (firstname, lastname, email) VALUES ('John', 'Doe', 'john@example.com')";
 
-		if (app::$db->query($sql) === TRUE) {
-			echo "New record created successfully";
-		} else {
-			echo "Error: " . $sql . "<br>" . app::$db->error;
-		}
+		print_r( $this->columns );
 
-=======
-		$this->connection = Connection::open();
-                $this->tableName = strtolower(get_class ([ $this ] )) ."s";
-                
-                $this->columns = (get_object_vars ([ $this ] ));
-               
-                echo "<pre>";
-                
-                print_r ($this->columns);
-                
-                echo "</pre>";
-                
+		echo "</pre>";
+
 	}
 
 	/**
@@ -61,7 +48,8 @@ class DataBase {
 	public function __destruct() {
 		// TODO: Close DB connection
 		$this->connection = Connection::close();
->>>>>>> 5037a9fe1b8b1ab2f21e3871e151b2832581a58a
+		>>>>>>>
+		5037a9fe1b8b1ab2f21e3871e151b2832581a58a
 	}
 
 	/**
@@ -80,14 +68,14 @@ class DataBase {
 	/**
 	 * Creates a new item in DB
 	 */
-	private function create($values) {
+	private function create( $values ) {
 		// TODO: INSERT NEW ROW
-            $sql = "INSERT INTO $this->tablename";
-            
-            
-            
-            $ResultSet = connection()->query($sql); 
-            return $ResultSet;
+		$sql = "INSERT INTO $this->tablename";
+
+
+		$ResultSet = connection()->query( $sql );
+
+		return $ResultSet;
 	}
 
 	/**
@@ -97,7 +85,7 @@ class DataBase {
 	 */
 	private function update( $id ) {
 		// TODO: UPDATE EXISTING ROW
-            
+
 	}
 
 	/**
@@ -107,7 +95,7 @@ class DataBase {
 	 * @param null $order
 	 * @param null $sort
 	 */
-	public function select($query = false, $order = null, $sort = null) {
+	public function select( $query = false, $order = null, $sort = null ) {
 		// TODO: SELECT ROWS
 	}
 
@@ -125,7 +113,7 @@ class DataBase {
 	 *
 	 * @param $str
 	 */
-	public function search($str = null) {
+	public function search( $str = null ) {
 		// TODO: SELECT based on search string
 	}
 
@@ -134,7 +122,7 @@ class DataBase {
 	 *
 	 * @param int $id
 	 */
-	public function delete($id = 0) {
+	public function delete( $id = 0 ) {
 		// TODO: Delete row from DataBase
 	}
 }
