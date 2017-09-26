@@ -29,4 +29,22 @@ class User extends Models {
 	 * @var  string */
 	protected $nickname;
 
+    /**
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+
+
 }

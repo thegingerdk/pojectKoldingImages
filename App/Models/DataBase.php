@@ -27,14 +27,18 @@ class DataBase {
 	 */
 	public function __construct() {
 		$this->tableName = strtolower( get_class( $this ) ) . "s";
-
-		$vars = ( get_object_vars( $this ) );
-		foreach ( $this->noUse as $item ) {
-			unset( $vars[ $item ] );
-		}
-
-		$this->columns = $vars;
+		$this->updateColumns();
 	}
+
+	private function updateColumns (){
+
+        $vars = ( get_object_vars( $this ) );
+        foreach ( $this->noUse as $item ) {
+            unset( $vars[ $item ] );
+        }
+
+        $this->columns = $vars;
+    }
 
 	/**
 	 * Loads when DataBase class unlinked
@@ -47,6 +51,8 @@ class DataBase {
 	 * Saves data to DB
 	 */
 	public function save() {
+        $this->updateColumns();
+
 		$this->columns = array_filter($this->columns);
 
 		if ( empty($this->ID) ) {
@@ -63,6 +69,7 @@ class DataBase {
 	 */
 	private function query( $sql ) {
 		if ( $result = app::$conn->query( $sql ) === true ) {
+            echo "im here<br>";
 			unset( $this->errors['db'] );
 
 			return $result;
@@ -125,9 +132,35 @@ class DataBase {
 	 * @param null $order
 	 * @param null $sort
 	 */
-	public function select( $query = false, $order = null, $sort = null ) {
-		// TODO: SELECT ROWS
+	private function select( $query = '*', $args = [] ) {
+
+	    $className = get_class($this);
+	    $rtrn = [];
+		// TODO: SELECT ROWS{
+
+        $sql = "SELECT {$query} FROM {$this->tableName} ";
+
+        foreach ($args as $item) {
+            $sql .= "{$item} ";
+        }
+
+        $result = app::$conn->query( $sql );
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+                $rtrn[] = new $className($row);
+            }
+        } else {
+            echo "0 results";
+        }
+
+        return $rtrn;
 	}
+
+	public function all (){
+	    return $this->select();
+    }
 
 	/**
 	 * Selects single row in DB, based on ID
@@ -135,7 +168,13 @@ class DataBase {
 	 * @param int $id
 	 */
 	public function find( $id = 0 ) {
+
+        $className = get_class($this);
 		// TODO: SELECT single row
+        return $this->select('*', [
+            'WHERE ID=' . $id,
+            'LIMIT 1'
+        ])[0];
 	}
 
 	/**
@@ -154,5 +193,9 @@ class DataBase {
 	 */
 	public function delete( $id = 0 ) {
 		// TODO: Delete row from DataBase
+        $sql = "DELETE FROM {$this->tableName} WHERE ID = $id";
+
+        return $this->query( $sql );
+
 	}
 }
