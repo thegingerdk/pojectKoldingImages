@@ -54,6 +54,7 @@ class app {
 		if($controller != null) return;
 
 		header("HTTP/1.0 404 Not Found");
+
 		self::view('errors/404', null, true);
 	}
 
@@ -65,10 +66,10 @@ class app {
 	public static function view( $view = null, $args = null, $error = false ) {
 		$page = (object) $args;
 		ob_start();
-		require_once( "./App/Views/{$view}.php" );
+		require_once( "./Resources/Views/{$view}.php" );
 		$content = ob_get_contents();
 		ob_end_clean();
 
-		require_once( "Views/" . self::env( 'LAYOUT' ) );
+		require_once( "./Resources/views/" . self::env( 'LAYOUT' ) );
 	}
 }
