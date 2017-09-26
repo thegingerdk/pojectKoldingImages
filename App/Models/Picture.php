@@ -1,7 +1,11 @@
 <?php
+namespace App;
 
 
 class Picture extends DataBase {
+
+	protected $tableName = "tablename";
+	protected $classAttributes = ['ID', '..', '..'];
 
 	/**
 	 * Primary Key

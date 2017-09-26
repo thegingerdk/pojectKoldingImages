@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thegingerdk
- * Date: 25/09/2017
- * Time: 12.09
- */
+namespace App;
+
 class DataBase {
 
 	/**
@@ -27,16 +23,8 @@ class DataBase {
 	 * Loads when DataBase class initialised
 	 * DataBase constructor.
 	 */
-	public function __construct() {
-		$this->connection = Connection::open();
-	}
-
-	/**
-	 * Loads when DataBase class unlinked
-	 */
-	public function __destruct() {
-		// TODO: Close DB connection
-		$this->connection = Connection::close();
+	public function __construct($connection) {
+		$this->connection = Connection::$con;
 	}
 
 	/**

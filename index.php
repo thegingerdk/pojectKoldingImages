@@ -1,13 +1,11 @@
 <?php
 session_start();
-require_once ('Models/loader.php');
-?>
+require "vendor/autoload.php";
 
-<html>
-<head>
-	<title>Vote, Biatch!</title>
-</head>
-<body>
-<h1>DO SHIT!!!!</h1>
-</body>
-</html>
+Conn::open();
+
+// TODO: read and render templates and routes
+
+require_once( 'Views/layout.php' );
+
+Connection::close();
