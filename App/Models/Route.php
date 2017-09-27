@@ -26,7 +26,7 @@ class Route {
 
 	public function __construct( $route, $args = [] ) {
 
-		$this->url = $route;
+		$this->url = app::env('LOCAL_ROOT') . $route;
 
 		if ( ! empty( $args['as'] ) ) {
 			$this->name = $args['as'];
