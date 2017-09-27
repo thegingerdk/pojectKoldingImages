@@ -6,29 +6,20 @@
  * Date: 25/09/2017
  * Time: 12.09
  */
-class DataBase {
+abstract class DataBase {
 	/**
 	 * DB Table name
 	 * @var string
 	 */
-	private $tableName = "";
+	protected static $tableName = "";
 	/**
 	 * Array of row names
 	 * @var array
 	 */
-	private $columns = [];
+	protected static $columns = [];
 
-	public $errors = [];
-	private $noUse = [ 'hidden', 'tableName', 'columns', 'errors', 'noUse' ];
-
-	/**
-	 * Loads when DataBase class initialised
-	 * DataBase constructor.
-	 */
-	public function __construct() {
-		$this->tableName = strtolower( get_class( $this ) ) . "s";
-		$this->updateColumns();
-	}
+	public static $errors = [];
+	private static $noUse = [ 'hidden', 'tableName', 'columns', 'errors', 'noUse' ];
 
 	private function updateColumns (){
 
@@ -187,9 +178,9 @@ class DataBase {
 	}
 
 	/**
-	 * Delete row
-	 *
 	 * @param int $id
+	 *
+	 * @return bool
 	 */
 	public function delete( $id = 0 ) {
 		// TODO: Delete row from DataBase

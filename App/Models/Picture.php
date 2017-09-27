@@ -37,4 +37,12 @@ class Picture extends Models {
 	 * @var  string */
 	protected $tags;
 
+
+	private function upload (){
+
+	}
+
+	public function save() {
+		$this->upload();
+	}
 }
