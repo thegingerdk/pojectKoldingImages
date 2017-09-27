@@ -42,7 +42,6 @@ class app {
 
 		$controller = null;
 
-		self::dd(self::$routes);
 
 		foreach ( self::$routes[ $_SERVER['REQUEST_METHOD'] == 'POST' ? 'post' : 'get' ] as $route ) {
 			if ( $_SERVER['REQUEST_URI'] == $route->url ) {
