@@ -1,6 +1,6 @@
 <?php
 
-class Rating extends Models {
+class Rating extends DataBase {
 
 	/**
 	 * Picture Primary Key

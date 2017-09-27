@@ -19,9 +19,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login / Register</a>
-                    </li>
+	                <?php
+	                if ( app::auth() ) {
+		                ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Log out</a>
+                        </li>
+		                <?php
+	                }else {
+		                ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login / Register</a>
+                        </li>
+		                <?php
+                    }
+	                ?>
                 </ul>
             </div>
         </div>

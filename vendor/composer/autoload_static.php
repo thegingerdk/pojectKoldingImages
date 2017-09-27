@@ -13,10 +13,12 @@ class ComposerStaticInitbfd4d26ba806fbf4b792d54567f093ab
 
     public static $classMap = array (
         'ApiController' => __DIR__ . '/../..' . '/App/Controllers/ApiController.php',
+        'Auth' => __DIR__ . '/../..' . '/App/Models/Auth.php',
         'AuthController' => __DIR__ . '/../..' . '/App/Controllers/AuthController.php',
         'Connection' => __DIR__ . '/../..' . '/App/Models/Connection.php',
         'Controller' => __DIR__ . '/../..' . '/App/Controllers/Controller.php',
         'DataBase' => __DIR__ . '/../..' . '/App/Models/DataBase.php',
+        'Helpers' => __DIR__ . '/../..' . '/Config/Helpers.php',
         'HomeController' => __DIR__ . '/../..' . '/App/Controllers/HomeController.php',
         'Models' => __DIR__ . '/../..' . '/App/Models/Models.php',
         'Picture' => __DIR__ . '/../..' . '/App/Models/Picture.php',

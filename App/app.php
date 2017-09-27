@@ -6,42 +6,16 @@
  * Time: 08.58
  */
 
-class app {
+class app extends Helpers {
 
-	public static $env;
 	public static $conn;
+	public static $msg;
 	public static $routes = [];
 	public static $errors = [];
-
-	public static function env( $name = null ) {
-		$env = [];
-
-		foreach ( explode( PHP_EOL, file_get_contents( './.env' ) ) as $item ) {
-			$item                    = explode( ':', $item );
-			$env[ trim( $item[0] ) ] = trim( $item[1] );
-		}
-
-
-		return ! is_null( $name ) && ! empty( $env[ $name ] ) ? $env[ $name ] : false;
-	}
-
-	public static function p( $print ) {
-		echo "<pre>";
-		print_r( $print );
-		echo "</pre>";
-	}
-
-	public static function dd( $print ) {
-		echo "<pre>";
-		print_r( $print );
-		echo "</pre>";
-		die();
-	}
 
 	public static function init() {
 
 		$controller = null;
-
 
 		foreach ( self::$routes[ $_SERVER['REQUEST_METHOD'] == 'POST' ? 'post' : 'get' ] as $route ) {
 			if ( $_SERVER['REQUEST_URI'] == $route->url ) {
@@ -72,6 +46,12 @@ class app {
 
 	public static function view( $view = null, $args = null, $error = false ) {
 		$page = (object) $args;
+
+		if (isset($_SESSION['msg'])){
+			self::$msg = $_SESSION['msg'];
+			unset($_SESSION['msg']);
+		}
+
 		ob_start();
 		require_once( "./Resources/Views/{$view}.php" );
 		$content = ob_get_contents();

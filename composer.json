@@ -11,7 +11,8 @@
         "classmap": [
             "App/app.php",
             "App/Controllers",
-            "App/Models"
+            "App/Models",
+            "Config"
         ],
         "files": [
             "App/Routes/api.php",
