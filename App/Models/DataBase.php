@@ -7,6 +7,7 @@
  * Time: 12.09
  */
 class DataBase {
+	protected $hidden = [];
 	/**
 	 * DB Table name
 	 * @var string
@@ -29,6 +30,15 @@ class DataBase {
 		$this->class     = get_class( $this );
 		$this->tableName = strtolower( $this->class ) . "s";
 		$this->updateColumns();
+	}
+
+	private function errors( $sql, $result ) {
+		if ( ! $result ) {
+			app::$errors['db']['msg'] = "DataBase error: " . app::$conn->error;
+			app::$errors['db']['sql'] = $sql;
+		} else {
+			app::$errors['db']['msg'] = "No {$this->class} found!";
+		}
 	}
 
 	private function updateColumns() {
@@ -96,6 +106,8 @@ class DataBase {
 		$sql .= ")";
 
 		if ( $result = $this->query( $sql ) ) {
+			$this->ID = app::$conn->insert_id;
+
 			return $result;
 		}
 
@@ -131,7 +143,7 @@ class DataBase {
 			return $result;
 		}
 
-		app::$errors['db:update'] = "Error in updating {$this->class}!";
+		app::$errors['db:update'] = "Error in updating {$this->class}: " . app::$conn->error;
 
 		return false;
 	}
@@ -147,51 +159,120 @@ class DataBase {
 	private function select( $args = [], $query = "*" ) {
 
 		$rtrn = [];
-		// TODO: SELECT ROWS
 
-		$query = implode( ",", array_keys( $this->columns ) );
+		$cols = [];
+		if ( count( $this->hidden ) !== 0 && ! isset( $args['hidden'] ) ) {
+			foreach ( $this->columns as $column => $val ) {
+				if ( ! in_array( $column, $this->hidden ) ) {
+					$cols[ $column ] = $val;
+				}
+			}
+		} else {
+			$cols = $this->columns;
+		}
 
-		$sql   = "SELECT {$query} FROM {$this->tableName} ";
+		$query = implode( ",", array_keys( $cols ) );
 
+		$sql = "SELECT {$query} FROM {$this->tableName} ";
 
-		foreach ( $args as $item ) {
-			$sql .= "{$item} ";
+		foreach ( $args as $key => $item ) {
+			if ( $key != 'hidden' ) {
+				$sql .= "{$item} ";
+			}
 		}
 
 		$result = app::$conn->query( $sql );
 
-		if ( $result->num_rows > 0 ) {
-			// output data of each row
-			while ( $row = $result->fetch_assoc() ) {
-				$rtrn[] = new $this->class( $row );
-			}
-		} else {
-			app::$errors['db:select'] = "No {$this->class} found.";
-		}
-
-		return $rtrn;
+		return self::getResult( $result, $sql );
 	}
 
 	public function all() {
 		return $this->select();
 	}
 
+	public function with() {
+		echo "with";
+	}
+
+	public function orderBy( $by = "" ) {
+		return $this->where( [ 'ORDER BY ' . $by ] );
+	}
+
 	/**
 	 * Selects single row in DB, based on ID
 	 *
 	 * @param int $id
+	 *
+	 * @return mixed
 	 */
-	public function find( $id = 0 ) {
+	public function findById( $id = 0 ) {
 		return $this->where( [
 			'WHERE ID=' . $id,
 			'LIMIT 1'
-		] );
+		] )[0];
+	}
+
+	public static function find( $id = 0 ) {
+		$class = get_called_class();
+
+		return ( new $class() )->findById();
+	}
+
+	public function single( $args = [] ) {
+		return $this->where( $args )[0];
+	}
+
+	public static function selectStatic( $args ) {
+		$class     = get_called_class();
+		$classVars = get_class_vars( $class );
+		$tableName = strtolower( $class ) . 's';
+		$rm        = array_merge( $classVars['hidden'], $classVars['noUse'] );
+
+		$props = [];
+
+		foreach ( $classVars as $key => $classVar ) {
+			if ( ! in_array( $key, $rm ) ) {
+				$props[] = $key;
+			}
+		}
+
+		$selection = implode( ',', $props );
+
+		$sql = "SELECT {$selection} FROM {$tableName}";
+
+		for ($i = 0; $i < count($args); $i++) {
+			$sql .= $i == 0 ? " WHERE " : " AND ";
+
+			$sql .= "{$args[$i][0]}{$args[$i][1]}'{$args[$i][2]}'";
+		}
+
+		$result = app::$conn->query( $sql );
+
+		if ( $result && $result->num_rows > 0 ) {
+			$rtrn = [];
+			// output data of each row
+			while ( $row = $result->fetch_assoc() ) {
+				$rtrn[] = new $class( $row );
+			}
+		}
+
+		return $rtrn;
+	}
+
+	public static function get( $args = [] ) {
+		if ( $result = self::selectStatic( $args ) ) {
+			return $result;
+		} else {
+			return false;
+		}
 	}
 
 	public function where( $args = [] ) {
 		if ( $result = $this->select( $args ) ) {
-			return $result[0];
-		}else return false;
+			return $result;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -208,8 +289,12 @@ class DataBase {
 	 *
 	 * @param $str
 	 */
-	public function findByQuery( $sql = [] ) {
-		// TODO: SELECT based on search string
+	public function findByQuery( $sql ) {
+
+		$result = app::$conn->query( $sql );
+
+		return $this->getResult( $result, $sql, false );
+
 	}
 
 	/**
@@ -225,8 +310,31 @@ class DataBase {
 			return $this->query( $sql );
 		}
 
-		app::$errors['db:delete'] = "Error in deleting file!";
+		app::$errors['db:delete'] = "Error in deleting file: " . app::$conn->error;;
 
 		return false;
+	}
+
+	/**
+	 * @param $result
+	 * @param $rtrn
+	 * @param $sql
+	 *
+	 * @return array
+	 */
+	private function getResult( $result, $sql, $withClass = true ) {
+		if ( $result && $result->num_rows > 0 ) {
+			$rtrn = [];
+			// output data of each row
+			while ( $row = $result->fetch_assoc() ) {
+				$rtrn[] = $withClass ? new $this->class( $row ) : $row;
+			}
+
+			return $rtrn;
+		} else {
+			$this->errors( $sql, $result );
+		}
+
+		return [];
 	}
 }

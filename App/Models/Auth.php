@@ -6,13 +6,12 @@ class Auth extends Models{
 		$email  = $_POST['email'];
 		$password  = $_POST['password'];
 
-		echo $password;
-
 		$query = [
-			"WHERE email='{$email}'"
+			"WHERE email='{$email}'",
+			"hidden" => false
 		];
 
-		$user = (new User())->where($query);
+		$user = (new User())->single($query);
 
 		if($user && password_verify($password, $user->password)){
 			$_SESSION['uid'] = $user->ID;
@@ -22,6 +21,16 @@ class Auth extends Models{
 
 		return false;
 
+	}
+
+	public static function register (){
+		$user = new User( $_POST );
+
+		$user->password = app::hash($user->password);
+
+		$user->save();
+
+		return $user;
 	}
 
 

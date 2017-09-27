@@ -2,23 +2,14 @@
 
 class HomeController extends Controller {
 	public function index() {
-		$title = "En side";
+		$title = "Images Galoure";
 
-		app::view( 'home', compact( 'title' ) );
-	}
+		$pictures = ( new Picture() )->orderBy( 'rand()' );
 
-	public function upload() {
-		if(! app::auth()) {
-			app::redirect('/login');
-		}
-		$title = "Upload image";
+		$user = app::auth() ? User::find( app::authId() ) : null;
 
-		app::view( 'upload', compact( 'title' ) );
-	}
+		$user->ratings();
 
-	public function uploadPost() {
-		$picture = (new Picture())->save();
-
-		app::view( 'upload', compact( 'picture' ) );
+		app::view( 'home', compact( 'title', 'pictures', 'user' ) );
 	}
 }

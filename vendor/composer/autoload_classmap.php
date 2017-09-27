@@ -14,6 +14,7 @@ return array(
     'DataBase' => $baseDir . '/App/Models/DataBase.php',
     'Helpers' => $baseDir . '/Config/Helpers.php',
     'HomeController' => $baseDir . '/App/Controllers/HomeController.php',
+    'ImageManipulator' => $baseDir . '/Config/ImageManipulator.php',
     'Models' => $baseDir . '/App/Models/Models.php',
     'Picture' => $baseDir . '/App/Models/Picture.php',
     'Rating' => $baseDir . '/App/Models/Rating.php',

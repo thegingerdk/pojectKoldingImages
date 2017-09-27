@@ -22,13 +22,6 @@ class app extends Helpers {
 				$controller = new $route->controller( $route->function );
 			}
 		}
-		foreach ( self::$routes['api'] as $route ) {
-			if ( $_SERVER['REQUEST_URI'] == $route->url ) {
-				$controller = new $route->controller( $route->function );
-			}
-		}
-
-
 
 		if ( $controller != null ) {
 			return;

@@ -20,6 +20,7 @@ class ComposerStaticInitbfd4d26ba806fbf4b792d54567f093ab
         'DataBase' => __DIR__ . '/../..' . '/App/Models/DataBase.php',
         'Helpers' => __DIR__ . '/../..' . '/Config/Helpers.php',
         'HomeController' => __DIR__ . '/../..' . '/App/Controllers/HomeController.php',
+        'ImageManipulator' => __DIR__ . '/../..' . '/Config/ImageManipulator.php',
         'Models' => __DIR__ . '/../..' . '/App/Models/Models.php',
         'Picture' => __DIR__ . '/../..' . '/App/Models/Picture.php',
         'Rating' => __DIR__ . '/../..' . '/App/Models/Rating.php',

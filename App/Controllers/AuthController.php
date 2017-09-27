@@ -16,9 +16,7 @@ class AuthController extends Controller {
 	}
 
 	public function register() {
-		$user = new User( $_POST );
-
-		$user->save();
+		$user = User::register();
 
 		app::redirect( '/login' );
 	}
