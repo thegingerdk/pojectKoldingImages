@@ -196,6 +196,5 @@ class DataBase {
         $sql = "DELETE FROM {$this->tableName} WHERE ID = $id";
 
         return $this->query( $sql );
-
 	}
 }
