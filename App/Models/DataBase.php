@@ -6,20 +6,29 @@
  * Date: 25/09/2017
  * Time: 12.09
  */
-abstract class DataBase {
+class DataBase {
 	/**
 	 * DB Table name
 	 * @var string
 	 */
-	protected static $tableName = "";
+	private $tableName = "";
 	/**
 	 * Array of row names
 	 * @var array
 	 */
-	protected static $columns = [];
+	private $columns = [];
 
-	public static $errors = [];
-	private static $noUse = [ 'hidden', 'tableName', 'columns', 'errors', 'noUse' ];
+	public $errors = [];
+	private $noUse = [ 'hidden', 'tableName', 'columns', 'errors', 'noUse' ];
+
+	/**
+	 * Loads when DataBase class initialised
+	 * DataBase constructor.
+	 */
+	public function __construct() {
+		$this->tableName = strtolower( get_class( $this ) ) . "s";
+		$this->updateColumns();
+	}
 
 	private function updateColumns (){
 

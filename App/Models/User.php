@@ -3,7 +3,6 @@
 class User extends Models {
 
 	protected $hidden = ['password'];
-	protected static $tableName = "users";
 
 	/**
 	 * Primary Key
