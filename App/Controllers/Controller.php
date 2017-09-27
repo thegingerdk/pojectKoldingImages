@@ -8,6 +8,7 @@
 
 class Controller {
 	protected $route;
+
 	public function __construct($function) {
 		$this->$function();
 	}

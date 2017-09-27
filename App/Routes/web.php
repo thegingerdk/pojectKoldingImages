@@ -1,3 +1,6 @@
 <?php
-Route::add('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-Route::add('/login', ['as' => 'auth', 'uses' => 'AuthController@index']);
+Route::get('/', [ 'as' => 'home', 'uses' => 'HomeController@index']);
+Route::get('/login', [ 'as' => 'auth:view', 'uses' => 'AuthController@index']);
+
+Route::post('/login', [ 'as' => 'auth:login', 'uses' => 'AuthController@login']);
+Route::post('/register', [ 'as' => 'auth:register', 'uses' => 'AuthController@register']);

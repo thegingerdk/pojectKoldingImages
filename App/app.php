@@ -41,7 +41,8 @@ class app {
 	public static function init() {
 
 		$controller = null;
-		foreach ( self::$routes['web'] as $route ) {
+
+		foreach ( self::$routes[ $_SERVER['REQUEST_METHOD'] == 'POST' ? 'post' : 'get' ] as $route ) {
 			if ( $_SERVER['REQUEST_URI'] == $route->url ) {
 				$controller = new $route->controller( $route->function );
 			}
@@ -52,15 +53,19 @@ class app {
 			}
 		}
 
-		if($controller != null) return;
 
-		header("HTTP/1.0 404 Not Found");
 
-		self::view('errors/404', null, true);
+		if ( $controller != null ) {
+			return;
+		}
+
+		header( "HTTP/1.0 404 Not Found" );
+
+		self::view( 'errors/404', null, true );
 	}
 
 	public static function json( $arr ) {
-		header('Content-type: application/json');
+		header( 'Content-type: application/json' );
 		echo json_encode( $arr );
 	}
 

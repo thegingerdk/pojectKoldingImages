@@ -6,8 +6,16 @@ class Route {
 	public $controller;
 	public $function;
 
-	public static function add( $route, $args = [] ) {
-		app::$routes['web'][ isset( $args['as'] ) ? $args['as'] : count( app::$routes ) - 1 ] = new Route( $route, $args );
+	public static function get( $route, $args = [] ) {
+		self::add('get', $route, $args);
+	}
+
+	public static function post( $route, $args = [] ) {
+		self::add('post', $route, $args);
+	}
+
+	private static function add ($type, $route, $args = []){
+		app::$routes[$type][ isset( $args['as'] ) ? $args['as'] : count( app::$routes ) - 1 ] = new Route( $route, $args );
 	}
 
 	public static function addApi( $route, $args = [] ) {

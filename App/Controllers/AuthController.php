@@ -6,4 +6,10 @@ class AuthController extends Controller {
 
 		app::view( 'login-register', compact( 'title' ) );
 	}
+	public function login() {
+
+	}
+	public function register() {
+
+	}
 }
