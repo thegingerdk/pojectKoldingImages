@@ -12,21 +12,22 @@ class DataBase {
 	 * @var string
 	 */
 	private $tableName = "";
+	private $class = "";
 	/**
 	 * Array of row names
 	 * @var array
 	 */
 	private $columns = [];
 
-	public $errors = [];
-	private $noUse = [ 'hidden', 'tableName', 'columns', 'errors', 'noUse' ];
+	private $noUse = [ 'hidden', 'tableName', 'columns', 'noUse' ];
 
 	/**
 	 * Loads when DataBase class initialised
 	 * DataBase constructor.
 	 */
 	public function __construct() {
-		$this->tableName = strtolower( get_class( $this ) ) . "s";
+		$this->class = get_class( $this );
+		$this->tableName = strtolower( $this->class ) . "s";
 		$this->updateColumns();
 	}
 
@@ -69,7 +70,6 @@ class DataBase {
 	 */
 	private function query( $sql ) {
 		if ( $result = app::$conn->query( $sql ) === true ) {
-            echo "im here<br>";
 			unset( $this->errors['db'] );
 
 			return $result;
@@ -97,7 +97,12 @@ class DataBase {
 
 		$sql .= ")";
 
-		return $this->query( $sql );
+		if($result = $this->query( $sql )) {
+			return $result;
+		}
+
+		app::$errors['db:create'] = "Error in creating {$this->class}!";
+		return false;
 	}
 
 	/**
@@ -121,7 +126,13 @@ class DataBase {
 
         $sql .= " WHERE ID={$this->ID}";
 
-        return $this->query( $sql );
+
+		if($result = $this->query( $sql )) {
+			return $result;
+		}
+
+		app::$errors['db:update'] = "Error in updating {$this->class}!";
+		return false;
     }
 
 
@@ -134,9 +145,9 @@ class DataBase {
 	 */
 	private function select( $query = '*', $args = [] ) {
 
-	    $className = get_class($this);
+	    $rtrn = [];
 		// TODO: SELECT ROWS{
-
+     $query = implode( ",", array_keys( $this->columns ) );
         $sql = "SELECT {$query} FROM {$this->tableName} ";
 
         foreach ($args as $item) {
@@ -146,16 +157,15 @@ class DataBase {
         $result = app::$conn->query( $sql );
 
         if ($result->num_rows > 0) {
-	        $rtrn = [];
             // output data of each row
             while($row = $result->fetch_assoc()) {
-                $rtrn[] = new $className($row);
+                $rtrn[] = new $this->class($row);
             }
-
-	        return $rtrn;
         } else {
-            echo "0 results";
+	        app::$errors['db:select'] = "No {$this->class} found.";
         }
+
+        return $rtrn;
 	}
 
 	public function all (){
@@ -168,13 +178,14 @@ class DataBase {
 	 * @param int $id
 	 */
 	public function find( $id = 0 ) {
-
-        $className = get_class($this);
 		// TODO: SELECT single row
-        return $this->select('*', [
-            'WHERE ID=' . $id,
-            'LIMIT 1'
-        ])[0];
+
+		$args = [
+			'WHERE ID=' . $id,
+			'LIMIT 1'
+		];
+
+        if( $this->select($args)[0]);
 	}
 
 	/**
@@ -187,14 +198,27 @@ class DataBase {
 	}
 
 	/**
-	 * @param int $id
+	 * Searches DB for items equal or partially equal
 	 *
-	 * @return bool
+	 * @param $str
+	 */
+	public function findByQuery( $sql ) {
+		// TODO: SELECT based on search string
+	}
+
+	/**
+	 * Delete row
+	 *
+	 * @param int $id
 	 */
 	public function delete( $id = 0 ) {
-		// TODO: Delete row from DataBase
-        $sql = "DELETE FROM {$this->tableName} WHERE ID = $id";
+		$id = $id == 0 ? $this->ID : $id;
+		if($id) {
+			$sql = "DELETE FROM `{$this->tableName}` WHERE `ID`=$id";
+			return $this->query( $sql );
+		}
 
-        return $this->query( $sql );
+		app::$errors['db:delete'] = "Error in deleting file!";
+		return false;
 	}
 }

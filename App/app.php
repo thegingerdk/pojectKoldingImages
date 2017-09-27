@@ -11,6 +11,7 @@ class app {
 	public static $env;
 	public static $conn;
 	public static $routes = [];
+	public static $errors = [];
 
 	public static function env( $name = null ) {
 		$env = [];
