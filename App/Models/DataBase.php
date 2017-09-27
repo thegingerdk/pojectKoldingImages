@@ -94,7 +94,6 @@ class DataBase {
 		$sql .= "'" . implode( "','", $this->columns ) . "'";
 
 		$sql .= ")";
-		echo $sql;
 
 		if ( $result = $this->query( $sql ) ) {
 			return $result;
@@ -127,7 +126,6 @@ class DataBase {
 		}
 
 		$sql .= " WHERE ID={$this->ID}";
-
 
 		if ( $result = $this->query( $sql ) ) {
 			return $result;
