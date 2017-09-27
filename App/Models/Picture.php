@@ -39,23 +39,28 @@ class Picture extends Models {
 
 
 	private function upload (){
-        $target_dir = "assets/images/";
+        $target_dir = "assets/images/{$this->userID}/";
 
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $file = $_FILES["fileToUpload"];
+
+        if(!file_exists($target_dir)) mkdir($target_dir);
+
+		$path_parts = pathinfo(basename($file["name"]));
+		$this->imageData = app::randomStr(20) . "." . $path_parts['extension'];
+		$filePath = "{$target_dir}{$this->imageData}";
         $uploadOk = 1;
-        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
         if(isset($_POST["submit"])) {
 
 
 // Check file size
-            if ($_FILES["fileToUpload"]["size"] > 5000000) {
+            if ($file["size"] > 5000000) {
                 echo "Sorry, your file is too large.";
                 $uploadOk = 0;
             }
 
             // Check if file already exists
-            if (file_exists($target_file)) {
+            if (file_exists($this->imageData)) {
                 echo "Sorry, file already exists.";
                 $uploadOk = 0;
             }
@@ -63,20 +68,22 @@ class Picture extends Models {
             // Check if $uploadOk is set to 0 by an error
             if ($uploadOk == 0) {
                 echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
+                return false;
             } else {
-                $image = $_FILES["fileToUpload"]["tmp_name"];
-                if (move_uploaded_file($image, $target_file)) {
-                    $this->imageBackup=addslashes(file_get_contents($image));
+                $image = $file["tmp_name"];
+                $this->mime = $file['type'];
 
-
-                }
+	            $this->imageBackup = addslashes(file_get_contents($image));
+	            return move_uploaded_file($image, $filePath);
             }
         }
 	}
 
 	public function save() {
-		$this->upload();
-		$this->save();
+		$this->userID = app::uid();
+		if($this->upload()){
+			return parent::save();
+		}
+		return false;
 	}
 }

@@ -99,7 +99,7 @@ class DataBase {
 			return $result;
 		}
 
-		app::$errors['db:create'] = "Error in creating {$this->class}!";
+		app::$errors['db:create'] = "Error in creating {$this->class}: " . app::$conn->error;
 
 		return false;
 	}

@@ -23,6 +23,9 @@
 	                if ( app::auth() ) {
 		                ?>
                         <li class="nav-item">
+                            <a class="nav-link" href="/upload">Upload image</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/logout">Log out</a>
                         </li>
 		                <?php

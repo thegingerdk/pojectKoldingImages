@@ -20,6 +20,7 @@ class Models extends DataBase {
 	public function __get($name)
 	{
 		if(array_key_exists($name, get_object_vars($this))) {
+
 			return $this->$name;
 		}
 		return null;
@@ -28,6 +29,7 @@ class Models extends DataBase {
 	public function __set($name, $value)
 	{
 		if(array_key_exists($name, get_object_vars($this))) {
+
 			$this->$name = $value;
 		}
 		return null;
