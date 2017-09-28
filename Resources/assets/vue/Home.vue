@@ -10,6 +10,7 @@
         </div>
     </div>
 </template>
+
 <script>
     import {EventBus} from '../js/app.js';
 
