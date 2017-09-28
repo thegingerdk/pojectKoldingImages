@@ -1,7 +1,15 @@
 @import "~bootstrap/scss/bootstrap";
 
+* {
+  outline: 0!important;
+}
+
 #page-content {
   padding: 50px 0;
+}
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 .card {
@@ -22,6 +30,7 @@
       .card-body {
         top:100%;
         box-shadow: 0 0 15px rgba(0, 0, 0, .15);
+        transition: top ease-out 200ms;
       }
     }
 
@@ -37,7 +46,6 @@
     .card-body {
       position: absolute;
       background: #fafafa;
-      transition: top ease-out 200ms;
       top: 0;
       z-index: 5;
     }
@@ -155,5 +163,37 @@
   }
   &.stared i {
     color: #ebdb7b;
+  }
+}
+
+.upload-form {
+  padding:25px;
+  box-shadow: 0 0 25px rgba(0,0,0,.2);
+}
+
+button {
+  cursor: pointer;
+}
+label{
+  display: none;
+}
+
+.form-control{
+  border-radius: 0;
+  border:0;
+  border-bottom:2px solid rgba(0,0,0,.2);
+  padding-left:0;
+  background: transparent!important;
+
+  &:focus {
+    border-color: #d96a61;
+  }
+}
+.btn-primary {
+  background-color: #d96a61;
+  border-color: #d96a61;
+  &:hover {
+    background-color: darken(#d96a61, 5%);
+    border-color:darken(#d96a61, 5%);
   }
 }

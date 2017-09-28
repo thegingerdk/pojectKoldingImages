@@ -10,6 +10,7 @@
         </div>
     </div>
 </template>
+
 <script>
     import {EventBus} from '../js/app.js';
 
@@ -58,6 +59,6 @@
                 document.getElementById('root').classList.add("opened-image");
                 this.picture = picture;
             }
-        }
+        },
     }
 </script>

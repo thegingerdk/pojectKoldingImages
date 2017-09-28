@@ -138,10 +138,17 @@ class Helpers {
 
 	public static function arrayToJSON( $array ) {
 		$rtrn = [];
-		foreach ( $array as $object ) {
-			$rtrn[] = self::toJSON( $object );
+		foreach ( $array as $index => $object ) {
+
+			$index = $object->ID ? $object->ID : $index;
+
+			$rtrn[ $index ] = self::toJSON( $object );
 		}
 
 		return $rtrn;
+	}
+
+	public static function current() {
+		return explode( '?', $_SERVER['REQUEST_URI'] )[0];
 	}
 }

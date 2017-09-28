@@ -2,7 +2,7 @@
 
 class HomeController extends Controller {
 	public function index() {
-		$title    = "Images Galoure";
+		$title    = "IMITO";
 
 		app::view( 'home', compact( 'title' ) );
 	}
@@ -15,9 +15,9 @@ class HomeController extends Controller {
 		app::view( 'home', compact( 'title', 'delete' ) );
 	}
 
-	public function javascript() {
-		$title    = "Test js";
+	public function copyrights() {
+		$title    = "IMITO | Copyright Terms";
 
-		app::view( 'js', compact( 'title' ) );
+		app::view( 'terms-conditions', compact( 'title' ) );
 	}
 }
