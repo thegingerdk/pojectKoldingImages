@@ -23,6 +23,9 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item <?= app::current() == '/terms-conditions' ? 'active' : '' ?>">
+                        <a class="nav-link" href="/terms-conditions">TERMS AND CONDITIONS</a>
+                    </li>
 	                <?php
 	                if ( app::auth() ) {
 		                ?>
@@ -36,7 +39,7 @@
 	                }else {
 		                ?>
                         <li class="nav-item <?= app::current() == '/login' ? 'active' : '' ?>">
-                            <a class="nav-link" href="/login">Login / Register</a>
+                            <a class="nav-link" href="/login">LOGIN/REGISTER</a>
                         </li>
 		                <?php
                     }

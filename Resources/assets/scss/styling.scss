@@ -1,5 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 
+* {
+  outline: 0!important;
+}
+
 #page-content {
   padding: 50px 0;
 }
