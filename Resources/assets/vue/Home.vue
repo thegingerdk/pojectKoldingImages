@@ -1,7 +1,6 @@
 <template>
     <div class="wrap">
-        <div class="large-image" v-show="picture">
-            <a @click.prevent="close"><i class="fa fa-close"></i></a>
+        <div @keyup.esc="close" class="large-image" v-show="picture && !remove" @click="close">
             <img :src="picture.src" alt="">
         </div>
         <div class="container">
