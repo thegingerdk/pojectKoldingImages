@@ -26,10 +26,13 @@
 	                if ( app::auth() ) {
 		                ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout">Log out</a>
+                            <a class="nav-link" href="/images">My Images</a>
                         </li>
                         <li class="nav-item">
                             <button type="button" class="nav-link btn btn-outline-success" data-toggle="modal" data-target="#exampleModal">Upload image</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout"><i class="fa fa-sign-out"></i></a>
                         </li>
 		                <?php
 	                }else {

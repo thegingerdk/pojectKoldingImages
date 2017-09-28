@@ -1,5 +1,6 @@
 <?php
 Route::get('/', [ 'as' => 'home', 'uses' => 'HomeController@index']);
+Route::get('/images', [ 'as' => 'images', 'uses' => 'HomeController@images']);
 Route::get('/login', [ 'as' => 'auth:view', 'uses' => 'AuthController@index']);
 Route::get('/logout', [ 'as' => 'auth:logout', 'uses' => 'AuthController@logout']);
 
