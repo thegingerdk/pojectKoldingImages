@@ -3,7 +3,6 @@
 		<?php if ( isset( $page->delete ) && $page->delete == true ) { ?>
         <div class="col-4">
 			<?php require_once "includes/upload.php"; ?>
-
         </div>
         <div class="col">
 			<?php } else { ?>

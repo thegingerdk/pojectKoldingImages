@@ -2,13 +2,16 @@
 
 class AuthController extends Controller {
 	public function index() {
-		$title = "Login / Register";
+
+		if(app::auth()) app::redirect('/images');
+
+		$title = "IMITO | Login / Register";
 
 		app::view( 'login-register', compact( 'title' ) );
 	}
 
 	public function login() {
-		if ( $user = User::login( $_POST ) ) {
+		if ( $user = User::login( $_POST['email'], $_POST['password'] ) ) {
 			app::redirect( '/' );
 		} else {
 			app::redirect( '/login', 'No user with that password and email combination exists!' );
@@ -18,7 +21,9 @@ class AuthController extends Controller {
 	public function register() {
 		$user = User::register();
 
-		app::redirect( '/login' );
+		User::login( $user->email,  $_POST['password']);
+
+		app::redirect( '/' );
 	}
 
 	public function logout() {

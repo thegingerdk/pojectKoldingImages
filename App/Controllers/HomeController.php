@@ -2,7 +2,7 @@
 
 class HomeController extends Controller {
 	public function index() {
-		$title    = "Images Galoure";
+		$title    = "IMITO";
 
 		app::view( 'home', compact( 'title' ) );
 	}

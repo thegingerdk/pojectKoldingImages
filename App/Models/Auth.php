@@ -1,21 +1,18 @@
 <?php
 
-class Auth extends Models{
+class Auth extends Models {
 
-	public static function login ($args){
-		$email  = $_POST['email'];
-		$password  = $_POST['password'];
-
+	public static function login( $email, $password ) {
 		$query = [
 			"WHERE email='{$email}'",
 			"hidden" => false
 		];
 
 
-		$user = (new User())->single($query, "ID,password,email");
+		$user = ( new User() )->single( $query, "ID,password,email" );
 
-		if($user && password_verify($password, $user->password)){
-			$_SESSION['uid'] = $user->ID;
+		if ( $user && password_verify( $password, $user->password ) ) {
+			$_SESSION['uid']           = $user->ID;
 			$_SESSION['authenticated'] = true;
 
 			return $user;
@@ -25,10 +22,10 @@ class Auth extends Models{
 
 	}
 
-	public static function register (){
+	public static function register() {
 		$user = new User( $_POST );
 
-		$user->password = app::hash($user->password);
+		$user->password = app::hash( $user->password );
 
 		$user->save();
 
@@ -37,7 +34,7 @@ class Auth extends Models{
 
 
 	public static function logout() {
-		unset($_SESSION['uid']);
-		unset($_SESSION['authenticated']);
+		unset( $_SESSION['uid'] );
+		unset( $_SESSION['authenticated'] );
 	}
 }

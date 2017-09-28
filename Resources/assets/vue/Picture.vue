@@ -2,7 +2,7 @@
     <div class="picture col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="card" :class="{'my-images' : remove}">
             <a v-if="remove" class="delete-btn" @click.prevent="removeImage" href="#"><i class="fa fa-trash"></i></a>
-            <img @click="openLarge" class="card-img-top" :src="thumb" alt="Card image cap">
+            <img @click="openLarge" class="card-img-top" :src="thumb" :alt="picture.caption">
             <div class="card-body" v-if="!remove">
                 <div class="btn-group btn-group-justified" role="group" aria-label="Basic example">
                     <a href="#"
@@ -59,8 +59,8 @@
         mounted() {
             this.rated.rating = this._rated ? this._rated.rating : null;
 
-            this.thumb       = `http://web1.pete334y.iba-abakomp.dk/assets/images/${this.picture.userID}/thumb__${this.picture.image}`;
-            this.picture.src = `http://web1.pete334y.iba-abakomp.dk/assets/images/${this.picture.userID}/medium__${this.picture.image}`;
+            this.thumb       = `/assets/images/${this.picture.userID}/thumb__${this.picture.image}`;
+            this.picture.src = `/assets/images/${this.picture.userID}/medium__${this.picture.image}`;
 
             this.disabled = this.authenticated && this.picture.userID == this.uid || this.rated.rating;
         },

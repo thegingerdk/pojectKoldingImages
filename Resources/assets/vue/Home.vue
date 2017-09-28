@@ -58,6 +58,6 @@
                 document.getElementById('root').classList.add("opened-image");
                 this.picture = picture;
             }
-        }
+        },
     }
 </script>

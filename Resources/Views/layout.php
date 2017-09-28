@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title><?= $page->title ?></title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/css/app.css">
 </head>
@@ -9,23 +10,24 @@
 
 <div id="app">
 
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#"><img src="/assets/images/logo.png"</a>
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="/">
+                <img width="30px" src="/assets/images/logo.png"/>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
+                <ul class="navbar-nav ml-auto">
 	                <?php
 	                if ( app::auth() ) {
 		                ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/images">My Images</a>
+                        <li class="nav-item <?= app::current() == '/images' ? 'active' : '' ?>">
+                            <a class="nav-link" href="/images">MY IMAGES</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/logout"><i class="fa fa-sign-out"></i></a>
@@ -33,7 +35,7 @@
 		                <?php
 	                }else {
 		                ?>
-                        <li class="nav-item">
+                        <li class="nav-item <?= app::current() == '/login' ? 'active' : '' ?>">
                             <a class="nav-link" href="/login">Login / Register</a>
                         </li>
 		                <?php

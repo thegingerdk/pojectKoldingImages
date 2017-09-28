@@ -5555,6 +5555,9 @@ a.text-dark:focus, a.text-dark:hover {
 #page-content {
   padding: 50px 0; }
 
+body {
+  font-family: 'Source Sans Pro', sans-serif; }
+
 .card {
   position: relative;
   margin-bottom: 15px;
@@ -5569,7 +5572,8 @@ a.text-dark:focus, a.text-dark:hover {
         transform: scale(1.1); }
       .card:not(.my-images):hover .card-body {
         top: 100%;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); }
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+        transition: top ease-out 200ms; }
     .card img {
       border-radius: 0;
       cursor: pointer;
@@ -5580,7 +5584,6 @@ a.text-dark:focus, a.text-dark:hover {
     .card .card-body {
       position: absolute;
       background: #fafafa;
-      transition: top ease-out 200ms;
       top: 0;
       z-index: 5; } }
   .card .btn-default {
@@ -5676,3 +5679,29 @@ a.text-dark:focus, a.text-dark:hover {
 
 .rated.stared i {
   color: #ebdb7b; }
+
+.upload-form {
+  padding: 25px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2); }
+
+button {
+  cursor: pointer; }
+
+label {
+  display: none; }
+
+.form-control {
+  border-radius: 0;
+  border: 0;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  padding-left: 0;
+  background: transparent !important; }
+  .form-control:focus {
+    border-color: #d96a61; }
+
+.btn-primary {
+  background-color: #d96a61;
+  border-color: #d96a61; }
+  .btn-primary:hover {
+    background-color: #d4574c;
+    border-color: #d4574c; }
