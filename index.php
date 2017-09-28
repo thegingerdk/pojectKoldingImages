@@ -1,4 +1,5 @@
-<?php session_start();
+<?php
+session_start();
 require "vendor/autoload.php";
 
 $connection = new Connection();

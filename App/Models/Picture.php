@@ -143,4 +143,11 @@ class Picture extends Models {
 			}
 		}
 	}
+
+	public static function delete( $id = 0, $where = 'ID' ) {
+
+		Rating::delete($id, 'pictureID');
+
+		return parent::delete( $id );
+	}
 }

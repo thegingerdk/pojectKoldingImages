@@ -9,7 +9,7 @@ class ApiController extends Controller {
 	public function rate() {
 		app::checkAuth();
 
-		$rating = new Rating($_POST);
+		$rating         = new Rating( $_POST );
 		$rating->userID = app::authId();
 		$rating->save();
 
@@ -21,7 +21,7 @@ class ApiController extends Controller {
 
 	public function upload() {
 
-		app::checkAuth();
+		app::checkApiAuth();
 
 		$picture = new Picture( $_POST );
 		$picture->save();
@@ -29,5 +29,29 @@ class ApiController extends Controller {
 		app::back();
 
 		app::json( $picture->toArray() );
+	}
+
+
+	public function delete() {
+
+		$ID = $_GET['pid'];
+
+		app::checkApiAuth();
+
+		if ( $deleted = Picture::delete( $ID ) ) {
+
+			app::back();
+
+			app::json( [ 'deleted' => $deleted ] );
+
+			return;
+		}
+
+
+		app::back( 'Image not deleted' );
+
+		app::json( [ 'deleted' => $deleted ] );
+
+		return;
 	}
 }

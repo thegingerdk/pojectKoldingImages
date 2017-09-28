@@ -16,9 +16,12 @@ class app extends Helpers {
 	public static function init() {
 
 		$controller = null;
+		$url = explode('?', $_SERVER['REQUEST_URI'])[0];
 
 		foreach ( self::$routes[ $_SERVER['REQUEST_METHOD'] == 'POST' ? 'post' : 'get' ] as $route ) {
-			if ( $_SERVER['REQUEST_URI'] == $route->url ) {
+
+			if ($url  == $route->url ) {
+
 				$controller = new $route->controller( $route->function );
 			}
 		}

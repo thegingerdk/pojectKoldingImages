@@ -11,11 +11,13 @@ class Auth extends Models{
 			"hidden" => false
 		];
 
-		$user = (new User())->single($query);
+
+		$user = (new User())->single($query, "ID,password,email");
 
 		if($user && password_verify($password, $user->password)){
 			$_SESSION['uid'] = $user->ID;
 			$_SESSION['authenticated'] = true;
+
 			return $user;
 		}
 

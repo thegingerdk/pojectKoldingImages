@@ -156,7 +156,7 @@ class DataBase {
 	 * @param null $order
 	 * @param null $sort
 	 */
-	private function select( $args = [], $query = "*" ) {
+	private function select( $args = [], $query = null ) {
 
 		$rtrn = [];
 
@@ -171,14 +171,12 @@ class DataBase {
 			$cols = $this->columns;
 		}
 
-		$query = implode( ",", array_keys( $cols ) );
+		$query = is_null( $query ) ? implode( ",", array_keys( $cols ) ) : $query;
 
 		$sql = "SELECT {$query} FROM {$this->tableName} ";
 
 		foreach ( $args as $key => $item ) {
-			if ( $key != 'hidden' ) {
-				$sql .= "{$item} ";
-			}
+			$sql .= "{$item} ";
 		}
 
 		$result = app::$conn->query( $sql );
@@ -215,11 +213,12 @@ class DataBase {
 	public static function find( $id = 0 ) {
 		$class = get_called_class();
 
-		return ( new $class() )->findById();
+
+		return ( new $class() )->findById( $id );
 	}
 
-	public function single( $args = [] ) {
-		return $this->where( $args )[0];
+	public function single( $args = [], $query = null ) {
+		return $this->where( $args, $query )[0];
 	}
 
 	public static function selectStatic( $args ) {
@@ -227,6 +226,7 @@ class DataBase {
 		$classVars = get_class_vars( $class );
 		$tableName = strtolower( $class ) . 's';
 		$rm        = array_merge( $classVars['hidden'], $classVars['noUse'] );
+		$rtrn = [];
 
 		$props = [];
 
@@ -240,7 +240,7 @@ class DataBase {
 
 		$sql = "SELECT {$selection} FROM {$tableName}";
 
-		for ($i = 0; $i < count($args); $i++) {
+		for ( $i = 0; $i < count( $args ); $i ++ ) {
 			$sql .= $i == 0 ? " WHERE " : " AND ";
 
 			$sql .= "{$args[$i][0]}{$args[$i][1]}'{$args[$i][2]}'";
@@ -249,7 +249,6 @@ class DataBase {
 		$result = app::$conn->query( $sql );
 
 		if ( $result && $result->num_rows > 0 ) {
-			$rtrn = [];
 			// output data of each row
 			while ( $row = $result->fetch_assoc() ) {
 				$rtrn[] = new $class( $row );
@@ -263,15 +262,17 @@ class DataBase {
 		if ( $result = self::selectStatic( $args ) ) {
 			return $result;
 		} else {
-			return false;
+			return [];
 		}
 	}
 
-	public function where( $args = [] ) {
-		if ( $result = $this->select( $args ) ) {
+	public function where( $args = [], $query = null ) {
+		if ( $result = $this->select( $args, $query ) ) {
+
+
 			return $result;
 		} else {
-			return false;
+			return [];
 		}
 	}
 
@@ -301,16 +302,24 @@ class DataBase {
 	 * Delete row
 	 *
 	 * @param int $id
+	 * @param string $where
+	 *
+	 * @return bool
 	 */
-	public function delete( $id = 0 ) {
-		$id = $id == 0 ? $this->ID : $id;
+	public static function delete( $id = 0, $where = "ID" ) {
 		if ( $id ) {
-			$sql = "DELETE FROM `{$this->tableName}` WHERE `ID`=$id";
+			$tableName = strtolower( get_called_class() ) . 's';
 
-			return $this->query( $sql );
+			$sql = "DELETE FROM `{$tableName}` WHERE `{$where}`={$id}";
+
+			if ( $result = app::$conn->query( $sql ) === true ) {
+				return $result;
+			} else {
+
+				app::$errors['db:delete'] = "Error in deleting file: " . app::$conn->error;
+				return false;
+			}
 		}
-
-		app::$errors['db:delete'] = "Error in deleting file: " . app::$conn->error;;
 
 		return false;
 	}

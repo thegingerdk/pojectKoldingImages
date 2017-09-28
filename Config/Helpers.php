@@ -52,6 +52,10 @@ class Helpers {
 		}
 	}
 
+	public static function checkApiAuth() {
+		self::checkAuth();
+	}
+
 	public static function auth (){
 		return isset($_SESSION['authenticated']) ? $_SESSION['authenticated'] : false;
 	}
