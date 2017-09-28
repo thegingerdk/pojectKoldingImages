@@ -16,12 +16,11 @@ class app extends Helpers {
 	public static function init() {
 
 		$controller = null;
-		$url = explode('?', $_SERVER['REQUEST_URI'])[0];
+		$url        = explode( '?', $_SERVER['REQUEST_URI'] )[0];
 
 		foreach ( self::$routes[ $_SERVER['REQUEST_METHOD'] == 'POST' ? 'post' : 'get' ] as $route ) {
 
-			if ($url  == $route->url ) {
-
+			if ( $url == $route->url || $url == $route->url . '/' ) {
 				$controller = new $route->controller( $route->function );
 			}
 		}
@@ -43,16 +42,17 @@ class app extends Helpers {
 	public static function view( $view = null, $args = null, $error = false ) {
 		$page = (object) $args;
 
-		if (isset($_SESSION['msg'])){
+		if ( isset( $_SESSION['msg'] ) ) {
 			self::$msg = $_SESSION['msg'];
-			unset($_SESSION['msg']);
+			unset( $_SESSION['msg'] );
 		}
 
+		$viewsFolder = $_SERVER['DOCUMENT_ROOT'] . "/Resources/Views/";
 		ob_start();
-		require_once( "./Resources/Views/{$view}.php" );
+		require_once( "{$viewsFolder}{$view}.php" );
 		$content = ob_get_contents();
 		ob_end_clean();
 
-		require_once( "./Resources/views/" . self::env( 'LAYOUT' ) );
+		require_once( $viewsFolder . self::env( 'LAYOUT' ) );
 	}
 }

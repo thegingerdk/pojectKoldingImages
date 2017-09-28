@@ -5,3 +5,5 @@ Route::getApi('/picture/delete', ['as' => 'delete', 'uses' => 'ApiController@del
 Route::postApi('/upload', [ 'as' => 'upload', 'uses' => 'ApiController@upload']);
 Route::postApi('/rate', [ 'as' => 'rate', 'uses' => 'ApiController@rate']);
 
+Route::getApi('/images', [ 'as' => 'images', 'uses' => 'ApiController@getImages']);
+

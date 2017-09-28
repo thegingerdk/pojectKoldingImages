@@ -10,6 +10,7 @@ class Helpers {
 
 
 	public static $env;
+
 	public static function env( $name = null ) {
 		$env = [];
 
@@ -29,21 +30,21 @@ class Helpers {
 	}
 
 	public static function dd( $print ) {
-		self::p($print);
+		self::p( $print );
 		die();
 	}
 
-	public static function hash ($str){
-		return password_hash($str, PASSWORD_DEFAULT);
+	public static function hash( $str ) {
+		return password_hash( $str, PASSWORD_DEFAULT );
 	}
 
-	public static function back($msg = "") {
-		self::redirect($_SERVER['HTTP_REFERER'], $msg);
+	public static function back( $msg = "" ) {
+		self::redirect( $_SERVER['HTTP_REFERER'], $msg );
 	}
 
-	public static function redirect ($str, $msg = ""){
+	public static function redirect( $str, $msg = "" ) {
 		$_SESSION['msg'] = $msg;
-		header("Location: {$str}");
+		header( "Location: {$str}" );
 	}
 
 	public static function checkAuth() {
@@ -56,25 +57,26 @@ class Helpers {
 		self::checkAuth();
 	}
 
-	public static function auth (){
-		return isset($_SESSION['authenticated']) ? $_SESSION['authenticated'] : false;
+	public static function auth() {
+		return isset( $_SESSION['authenticated'] ) ? $_SESSION['authenticated'] : false;
 	}
 
-	public static function authId (){
-		return isset($_SESSION['uid']) ? $_SESSION['uid'] : false;
+	public static function authId() {
+		return isset( $_SESSION['uid'] ) ? $_SESSION['uid'] : false;
 	}
 
-	public static function randomStr ($length = 10) {
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen($characters);
-		$randomString = '';
-		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
+	public static function randomStr( $length = 10 ) {
+		$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen( $characters );
+		$randomString     = '';
+		for ( $i = 0; $i < $length; $i ++ ) {
+			$randomString .= $characters[ rand( 0, $charactersLength - 1 ) ];
 		}
+
 		return $randomString;
 	}
 
-	public static function resizeImage($newWidth, $targetFile, $originalFile) {
+	public static function resizeImage( $newWidth, $targetFile, $originalFile ) {
 
 		$info = getimagesize( $originalFile );
 		$mime = $info['mime'];
@@ -105,19 +107,41 @@ class Helpers {
 		$img = $image_create_func( $originalFile );
 		list( $width, $height ) = getimagesize( $originalFile );
 
-		if($width < $height) {
+		if ( $width < $height ) {
 			$newHeight = ( $height / $width ) * $newWidth;
-		}else {
+		} else {
 			$newHeight = $newWidth;
-			$newWidth = ( $width / $height ) * $newHeight;
+			$newWidth  = ( $width / $height ) * $newHeight;
 		}
 
-		$tmp       = imagecreatetruecolor( $newWidth, $newHeight );
+		$tmp = imagecreatetruecolor( $newWidth, $newHeight );
 		imagecopyresampled( $tmp, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height );
 
 		if ( file_exists( $targetFile ) ) {
 			unlink( $targetFile );
 		}
 		$image_save_func( $tmp, "$targetFile" );
+	}
+
+	public static function toJSON( $object ) {
+		$c    = get_class( $object );
+		$rObj = new stdClass();
+
+		foreach ( $c::getVars() as $key => $val ) {
+			if ( $key != 'hidden') {
+				$rObj->$key = $object->$key;
+			}
+		}
+
+		return $rObj;
+	}
+
+	public static function arrayToJSON( $array ) {
+		$rtrn = [];
+		foreach ( $array as $object ) {
+			$rtrn[] = self::toJSON( $object );
+		}
+
+		return $rtrn;
 	}
 }

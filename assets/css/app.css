@@ -5556,7 +5556,40 @@ a.text-dark:focus, a.text-dark:hover {
   padding: 50px 0; }
 
 .card {
-  position: relative; }
+  position: relative;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  z-index: 10;
+  border: 0;
+  transform: scale(1); }
+  @media screen and (min-width: 981px) {
+    .card:not(.my-images):hover {
+      z-index: 200; }
+      .card:not(.my-images):hover img {
+        transform: scale(1.1); }
+      .card:not(.my-images):hover .card-body {
+        top: 100%;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); }
+    .card img {
+      border-radius: 0;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+      transition: transform ease 300ms;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); }
+    .card .card-body {
+      position: absolute;
+      background: #fafafa;
+      transition: top ease-out 200ms;
+      top: 0;
+      z-index: 5; } }
+  .card .btn-default {
+    color: #4a4a4a;
+    outline: none !important; }
+    .card .btn-default:hover {
+      color: #94d4de; }
+  .card h4 {
+    font-size: 16px; }
 
 .delete-btn {
   position: absolute;
@@ -5569,8 +5602,77 @@ a.text-dark:focus, a.text-dark:hover {
   text-align: center;
   font-size: 10px;
   border-radius: 50%;
+  z-index: 30;
   transform: scale(1);
   transition: transform ease 300ms;
   color: #d96a61; }
   .delete-btn:hover {
     transform: scale(1.2); }
+
+.opened-large-image {
+  overflow: hidden; }
+
+.large-image {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  padding: 100px;
+  text-align: center;
+  transition: all ease 300ms; }
+  .large-image a {
+    display: block;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 50px;
+    height: 50px;
+    background: white;
+    line-height: 50px;
+    border-radius: 50%;
+    transition: background ease 300ms; }
+    .large-image a:hover {
+      background: #4a4a4a; }
+    .large-image a i {
+      color: #d96a61;
+      line-height: 1; }
+  .large-image img {
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px; }
+
+.btn-group-justified {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate; }
+  .btn-group-justified .btn,
+  .btn-group-justified .btn-group {
+    float: none;
+    display: table-cell;
+    width: 1%; }
+    .btn-group-justified .btn .btn,
+    .btn-group-justified .btn-group .btn {
+      width: 100%; }
+    .btn-group-justified .btn .dropdown-menu,
+    .btn-group-justified .btn-group .dropdown-menu {
+      left: auto; }
+
+.rated.disliked i {
+  color: #373737; }
+
+.rated.liked i {
+  color: #8ad984; }
+
+.rated.favored i {
+  color: #d96a61; }
+
+.rated.stared i {
+  color: #ebdb7b; }

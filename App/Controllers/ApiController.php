@@ -2,20 +2,28 @@
 
 class ApiController extends Controller {
 
+	private $pictures = "";
+
 	public function index() {
 		app::json( [ 'test' => 'json' ] );
 	}
 
 	public function rate() {
-		app::checkAuth();
+		app::checkApiAuth();
 
-		$rating         = new Rating( $_POST );
-		$rating->userID = app::authId();
-		$rating->save();
+		$rated = true;
 
-		app::back();
+		$r = Rating::check();
 
-		app::json( [ 'test' => $_POST['rating'] ] );
+		if(! $r) {
+			$rating            = new Rating();
+			$rating->rating    = $_GET['rating'];
+			$rating->pictureID = $_GET['pid'];
+			$rating->userID    = app::authId();
+			$rating->save();
+		} else $rated = false;
+
+		app::json( [ 'rated' => $rated ] );
 	}
 
 
@@ -38,20 +46,37 @@ class ApiController extends Controller {
 
 		app::checkApiAuth();
 
-		if ( $deleted = Picture::delete( $ID ) ) {
+		Picture::delete( $ID );
 
-			app::back();
+		$pictures = Picture::get( [
+			[ 'userID', '=', app::authId() ]
+		] );
 
-			app::json( [ 'deleted' => $deleted ] );
+		app::json( [
+			'pictures' => app::arrayToJSON( $pictures ),
+		] );
+	}
 
-			return;
+	public function getImages() {
+
+		$options = [];
+
+		if ( isset( $_GET['my-images'] ) ) {
+			$options[] = [ 'userID', '=', app::authId() ];
+		} else {
+			$options['order'] = 'rand()';
 		}
 
+		$pictures = Picture::get( $options );
 
-		app::back( 'Image not deleted' );
+		$ratings = Rating::get( [
+			[ 'userID', '=', app::authId() ]
+		] );
 
-		app::json( [ 'deleted' => $deleted ] );
+		app::json( [
+			'pictures' => app::arrayToJSON( $pictures ),
+			'ratings'  => app::arrayToJSON( $ratings )
+		] );
 
-		return;
 	}
 }

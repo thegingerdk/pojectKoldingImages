@@ -3,30 +3,21 @@
 class HomeController extends Controller {
 	public function index() {
 		$title    = "Images Galoure";
-		$pictures = ( new Picture() )->orderBy( 'rand()' );
 
-		$user = null;
-
-		if ( app::auth() ) {
-
-			$user = User::find( app::authId() );
-			$user->ratings();
-		}
-
-		app::view( 'home', compact( 'title', 'pictures', 'user' ) );
+		app::view( 'home', compact( 'title' ) );
 	}
 
 	public function images() {
 		app::checkAuth();
+		$delete = true;
+		$title    = "My Images";
 
-		$user = User::find( app::authId() );
+		app::view( 'home', compact( 'title', 'delete' ) );
+	}
 
-		$title    = "Delete images";
-		$pictures = Picture::get( [
-			['userID','=',$user->ID]
-		] );
-		$delete   = true;
+	public function javascript() {
+		$title    = "Test js";
 
-		app::view( 'home', compact( 'title', 'pictures', 'user', 'delete' ) );
+		app::view( 'js', compact( 'title' ) );
 	}
 }

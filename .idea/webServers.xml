@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="8c6907c1-ebf3-40cb-804e-362c30e1cd22" name="peter-myrvig-server-1" url="http://84.19.166.106">
+        <fileTransfer host="84.19.166.106" port="22" rootFolder="/web" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -29,7 +29,7 @@ class Rating extends Models {
 
 	public static function getRatingsByImage( $pictureID ) {
 		if ( $pictureID ) {
-			$ratings = (new Rating())->findByQuery(
+			$ratings = ( new Rating() )->findByQuery(
 				"SELECT rating, COUNT(1) as count FROM ratings WHERE pictureID={$pictureID} GROUP BY rating"
 			);
 
@@ -61,5 +61,30 @@ class Rating extends Models {
 
 	public static function getRatingsByUser( $userID ) {
 
+	}
+
+	public static function check() {
+		$uid = app::authId();
+		$pid = $_GET['pid'];
+
+		$check  = Rating::get( [
+			[ 'userID', '=', $uid ],
+			[ 'pictureID', '=', $pid ]
+		] );
+
+		$result = [];
+		if ( count( $check ) > 0 ) {
+			foreach ( $check as $item ) {
+
+				$result[] = $item->destroy( [
+					[ 'userID', '=', $uid ],
+					[ 'pictureID', '=', $pid ]
+				] );
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 }

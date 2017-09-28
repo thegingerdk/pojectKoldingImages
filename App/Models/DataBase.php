@@ -226,7 +226,7 @@ class DataBase {
 		$classVars = get_class_vars( $class );
 		$tableName = strtolower( $class ) . 's';
 		$rm        = array_merge( $classVars['hidden'], $classVars['noUse'] );
-		$rtrn = [];
+		$rtrn      = [];
 
 		$props = [];
 
@@ -240,13 +240,18 @@ class DataBase {
 
 		$sql = "SELECT {$selection} FROM {$tableName}";
 
+		$orderBy = isset( $args['order'] ) ? " ORDER BY {$args['order']}" : '';
+
+		unset( $args['order'] );
+
 		for ( $i = 0; $i < count( $args ); $i ++ ) {
 			$sql .= $i == 0 ? " WHERE " : " AND ";
 
 			$sql .= "{$args[$i][0]}{$args[$i][1]}'{$args[$i][2]}'";
 		}
 
-		$result = app::$conn->query( $sql );
+
+		$result = app::$conn->query( $sql . $orderBy );
 
 		if ( $result && $result->num_rows > 0 ) {
 			// output data of each row
@@ -317,11 +322,35 @@ class DataBase {
 			} else {
 
 				app::$errors['db:delete'] = "Error in deleting file: " . app::$conn->error;
+
 				return false;
 			}
 		}
 
 		return false;
+	}
+
+	public function destroy( $args ) {
+		$tableName = strtolower( get_called_class() ) . 's';
+
+		$sql = "DELETE FROM `{$tableName}` ";
+
+
+
+		for ( $i = 0; $i < count( $args ); $i ++ ) {
+			$sql .= $i == 0 ? " WHERE " : " AND ";
+
+			$sql .= "{$args[$i][0]}{$args[$i][1]}'{$args[$i][2]}'";
+		}
+
+		if ( $result = app::$conn->query( $sql ) === true ) {
+			return $result;
+		} else {
+
+			app::$errors['db:delete'] = "Error in deleting file: " . app::$conn->error;
+
+			return false;
+		}
 	}
 
 	/**
@@ -346,4 +375,6 @@ class DataBase {
 
 		return [];
 	}
+
+
 }
